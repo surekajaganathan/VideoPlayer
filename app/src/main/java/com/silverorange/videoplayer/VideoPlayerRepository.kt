@@ -16,7 +16,7 @@ class VideoPlayerRepository {
         return if (response.isSuccessful && response.body() != null) {
             response.body()!!
         } else {
-            listOf<VideoListData>()
+            listOf()
         }
     }
 }

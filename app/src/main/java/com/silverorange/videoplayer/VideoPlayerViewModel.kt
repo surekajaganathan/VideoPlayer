@@ -1,13 +1,13 @@
 package com.silverorange.videoplayer
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class VideoPlayerViewModel(private val videoPlayerRepository: VideoPlayerRepository) : ViewModel() {
 
+    var videoList = ArrayList<VideoListData>()
+    val videoListLoaded = MutableLiveData(false)
 
     companion object {
 
@@ -20,13 +20,13 @@ class VideoPlayerViewModel(private val videoPlayerRepository: VideoPlayerReposit
             }
     }
 
-     fun getVideoList() {
+    fun getVideoList() {
         viewModelScope.launch {
             try {
-                val videoList = videoPlayerRepository.getVideoList()
-                val len = videoList.size
-            }catch (exception: IOException){
-               //Handle error case
+                videoList = videoPlayerRepository.getVideoList() as ArrayList
+                videoListLoaded.value = true
+            } catch (exception: IOException) {
+                //Handle error case
             }
 
         }
